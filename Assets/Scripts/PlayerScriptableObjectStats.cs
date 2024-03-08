@@ -12,6 +12,7 @@ public class PlayerScriptableObjectStats : ScriptableObject
     [SerializeField] int maxHealth;
     [SerializeField] int currrentHealth;
 
+    public int MaxHealth { get { return maxHealth; } }
     public int CurrentHealth
     {
         get { return currrentHealth; }
@@ -31,8 +32,6 @@ public class PlayerScriptableObjectStats : ScriptableObject
     }
 
 
-    [SerializeField] int currentCoins;
-
     [HideInInspector]
     public UnityEvent<int,int> onHealthChanged;
 
@@ -41,7 +40,6 @@ public class PlayerScriptableObjectStats : ScriptableObject
     {
         currrentHealth = maxHealth;
     }
-
 
 
     public void DamagePlayer(int damage)

@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Diagnostics.SymbolStore;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -16,6 +17,13 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Animator animController;
 
+
+    [Header("Player Stats ScriptableObject")]
+    [SerializeField]
+    private PlayerScriptableObjectStats PlayerStats;
+
+    [Header("Player Movement Variables")]
+    
     //Player Stats
     [SerializeField] private float playerSpeed;
     [SerializeField] private float jumpForce;
@@ -35,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isTouchingWall = false;
     private bool jumpPressed = false;
     private bool isWallJumping = false;
+    private bool isDamaged = false;
 
     private bool fallingTriggerSent = false;
 
@@ -117,6 +126,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+
+        //Custom Gravity
+        playerRB.AddForce(0f, -gravityValue, 0f, ForceMode.Force);
+
+
+        //Stop player except for falling until animation is finished
+        if (isDamaged)
+        {
+            playerRB.velocity = new Vector3(0f, playerRB.velocity.y, 0f);
+            return;
+        }
+
+
 
         Ray myRay = new Ray(transform.position, transform.forward * rayDistToWall);
 
@@ -207,8 +230,7 @@ public class PlayerMovement : MonoBehaviour
                 transform.forward = camRelative;
         }
 
-        //Custom Gravity
-        playerRB.AddForce(0f, -gravityValue, 0f, ForceMode.Force);
+
 
 
         //Cap y velocity from gravity
@@ -217,6 +239,7 @@ public class PlayerMovement : MonoBehaviour
         playerRB.velocity = currVeloicty;
 
 
+        //
         if (fallingTriggerSent == false)
         {
             animController.SetFloat("fallingValue", playerRB.velocity.y);
@@ -224,9 +247,23 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
+
     }
 
+    //TakesDamage Function called from Damageable event
+    public void PlayerTakesDamage(int damage)
+    {
+        animController.SetTrigger("isHurt");
+        isDamaged = true;
+        PlayerStats.DamagePlayer(damage);
+    }
 
+    //ResetIsDamaged called from unitychanHurt01 animation event
+    public void ResetIsDamaged()
+    {
+        Debug.Log("In Reset");
+        isDamaged = false;
+    }
 
 
 }

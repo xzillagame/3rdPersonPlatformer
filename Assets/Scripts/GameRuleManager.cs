@@ -13,17 +13,17 @@ public class GameRuleManager : ScriptableObject
     private int maxCoins = 0;
     private int currentCoins = 0;
 
+    public int MaxCoins { get { return maxCoins; } }
+    public int CurrentCoins { get { return currentCoins; } }
+
 
     public UnityEvent<int,int> onCoinCollected;
-
-
 
     private void OnEnable()
     {
         maxCoins = 0;
         currentCoins = 0;
     }
-
 
 
     public void AddCoinToCount()
