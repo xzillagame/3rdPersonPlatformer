@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,6 +9,12 @@ public class PlayerScriptableObjectStats : ScriptableObject
     [SerializeField] int maxHealth;
     [SerializeField] int currrentHealth;
 
+    [HideInInspector]
+    public UnityEvent<int, int> onHealthChanged;
+
+    public UnityEvent onAllHealthLost;
+
+
     public int MaxHealth { get { return maxHealth; } }
     public int CurrentHealth
     {
@@ -22,9 +25,10 @@ public class PlayerScriptableObjectStats : ScriptableObject
             currrentHealth = value;
             currrentHealth = Mathf.Clamp(currrentHealth, 0, maxHealth);
 
-            if(currrentHealth == 0)
+            if (currrentHealth == 0)
             {
                 Debug.Log("Player Should be Dead");
+                onAllHealthLost?.Invoke();
             }
 
         }
@@ -32,13 +36,9 @@ public class PlayerScriptableObjectStats : ScriptableObject
     }
 
 
-    [HideInInspector]
-    public UnityEvent<int,int> onHealthChanged;
-
-
     private void OnEnable()
     {
-        currrentHealth = maxHealth;
+        ResetHealth();
     }
 
 
@@ -49,13 +49,10 @@ public class PlayerScriptableObjectStats : ScriptableObject
         onHealthChanged?.Invoke(currrentHealth, maxHealth);
     }
 
-    public void HealPlayer(int healing)
+    public void ResetHealth()
     {
-        CurrentHealth += healing;
-        onHealthChanged?.Invoke(currrentHealth, maxHealth);
+        currrentHealth = maxHealth;
     }
-
-    
 
 
 

@@ -17,7 +17,7 @@ public class CoinCollectable : MonoBehaviour
 
     public void CoinCollected()
     {
-        coinGameRuleManager.RemoveCoinFromCount();
+        coinGameRuleManager.CoinCollected();
         Destroy(gameObject);
     }
 

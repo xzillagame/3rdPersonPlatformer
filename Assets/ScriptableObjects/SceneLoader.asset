@@ -9,10 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a42995e1bcaf9ec44b9ab7b248306a8f, type: 3}
-  m_Name: GameCoinManager
+  m_Script: {fileID: 11500000, guid: 722b2837e24d35a4f9bc1fad618b83c7, type: 3}
+  m_Name: SceneLoader
   m_EditorClassIdentifier: 
-  SceneLoader: {fileID: 11400000, guid: b3fd7af8a4410f443a79100a8dd5f870, type: 2}
-  onCoinCollected:
-    m_PersistentCalls:
-      m_Calls: []

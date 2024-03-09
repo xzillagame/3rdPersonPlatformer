@@ -81,8 +81,8 @@ public class PlayerMovement : MonoBehaviour
 
         #endregion
 
-        forwardInputAxis = Input.GetAxis("Vertical");
-        rightInputAxis = Input.GetAxis("Horizontal");
+        forwardInputAxis = Input.GetAxisRaw("Vertical");
+        rightInputAxis = Input.GetAxisRaw("Horizontal");
 
         if (forwardInputAxis != 0f || rightInputAxis != 0f)
         {
@@ -203,9 +203,9 @@ public class PlayerMovement : MonoBehaviour
             #endregion
 
             #region Final Movement Calculation
-            Vector3 finalMovement = (forwardRealtiveToCamera + rightRelativeToCamera);
+            Vector3 finalMovement = (forwardRealtiveToCamera + rightRelativeToCamera).normalized * playerSpeed;
 
-            finalMovement *= playerSpeed;
+ 
             finalMovement.y = playerRB.velocity.y;
 
             playerRB.velocity = finalMovement;
